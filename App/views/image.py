@@ -46,13 +46,12 @@ def get_images_by_user_action(id):
 def get_images_by_id_action(id):
     image = get_image_json(id)
     if not picture:
-        return jsonify({'message':'ERROR: Picture not found'}),404
+        return jsonify({'message':'ERROR: Picture not found'}), 404
     return jsonify({'picture': picture.toJSON()}), 200
 
-@image_views.route('/api/images', methods=['DELETE'])
-def delete_image_action():
-    data = request.json
-    if get_image(data['id']):
-        delete_image(data['id'])
-        return jsonify({"message":"Image Deleted"}) 
-    return jsonify({"message":"Image Not Found"}) 
+@image_views.route('/api/images/<int:id>', methods=['DELETE'])
+def delete_image_action(id):
+    if get_image(id):
+        delete_image(id)
+        return jsonify({"message":"Image Deleted"}), 200
+    return jsonify({'message':'ERROR: Picture not found'}), 404 
