@@ -1,0 +1,90 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style> 
+  body{
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(136,47,191,1) 35%, rgba(0,212,255,1) 100%);
+  }
+  .myButton {
+    box-shadow:inset 0px 1px 0px 0px #54a3f7;
+    background:linear-gradient(to bottom, #007dc1 5%, #0061a7 100%);
+    background-color:#007dc1;
+    border-radius:3px;
+    border:1px solid #124d77;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:Arial;
+    font-size:13px;
+    padding:6px 24px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #154682;
+}
+.myButton:hover {
+    background:linear-gradient(to bottom, #0061a7 5%, #007dc1 100%);
+    background-color:#0061a7;
+}
+.myButton:active {
+    position:relative;
+    top:1px;
+}
+
+
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+</style>
+
+</head>
+{% extends "layout.html" %}
+{% block title %}TitanTech Profile Picture Voting{% endblock %}
+{% block page %}TitanTech Profile Picture Voting{% endblock %}
+{{ super() }}
+
+
+    {% block content %}
+<!--     <div class="contact-title">
+      <h1>Welcome User</h1>
+    </div> -->
+
+    <div class="column is-4 is-offset-4">
+      <h3 class="title">Sign Up</h3>
+      <div class="box">   
+        
+        <form action="/signup" method="POST">
+        
+        <div class="field">
+          <div class="control">
+            <label>
+              Username<span class="req">*</span>
+            </label>
+            <input id="username" name="username" type="text" required autocomplete="off" placeholder="UserName" autofocus="" />
+          </div>
+        
+        <div class="control">
+          <label>
+            Password<span class="req">*</span>
+          </label>
+          <input id="password" name="password" type="password"required autocomplete="off" placeholder="Password"/>
+        </div>
+        
+        <div class="container">
+          <div class="center">
+            <button type="submit" class="myButton">Sign Up</button>
+          </div>
+        </div>
+        
+        </form>
+
+      </div>
+    
+    </div>
+
+    
+  {% endblock %}
+</html>   
