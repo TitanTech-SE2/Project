@@ -1,6 +1,7 @@
+from App.models import User
 import os
 from flask import Flask
-from flask_login import LoginManager, current_user
+from flask_login import LoginManager, current_user, login_manager
 from flask_uploads import DOCUMENTS, IMAGES, TEXT, UploadSet, configure_uploads
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
@@ -8,7 +9,7 @@ from werkzeug.datastructures import  FileStorage
 from datetime import timedelta
 
 
-from App.database import create_db
+from App.database import create_db, get_migrate
 
 from App.controllers import (
     setup_jwt
@@ -67,6 +68,25 @@ def create_app(config={}):
     configure_uploads(app, photos)
     add_views(app, views)
     create_db(app)
+    login_manager=LoginManager(app)
+    login_manager.init_app(app)
+    migrate=get_migrate(app)
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(user_id)
     setup_jwt(app)
     app.app_context().push()
     return app
+
+app=create_app()
+app=Flask(__name__)
+login_manager=LoginManager(app) 
+login_manager.init_app(app)
+migrate=get_migrate(app)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8080, debug=True)
