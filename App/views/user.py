@@ -34,6 +34,20 @@ def userSignUP():
     user = create_user(data['username'], data['password'])
     return showLogin()
 
+
+@user_views.route('/api/users/upload')
+@login_required
+def userUpload():
+    return render_template('upload.html')
+
+@user_views.route('/api/users/uploader', methods=['GET', 'POST'])
+@login_required
+def userUpload();
+    if request.method = 'POST':
+        f = request.files['file']
+        f.save(secure_filename(f.filename))
+        return 'File uploaded successfully'
+
 @user_views.route('/home',methods=['GET'])
 @login_required
 def get_homePage():
