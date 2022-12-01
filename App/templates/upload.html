@@ -3,3 +3,14 @@
 {% block page %}App Users{% endblock %}
 
 {{ super() }}
+upload.html’ has a file selector button and a submit button.
+
+<html>
+   <body>
+      <form action = "http://localhost:5000/uploader" method = "POST" 
+         enctype = "multipart/form-data">
+         <input type = "file" name = "file" />
+         <input type = "submit"/>
+      </form>   
+   </body>
+</html>
