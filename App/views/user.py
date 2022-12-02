@@ -24,7 +24,7 @@ user_views = Blueprint('user_views', __name__, template_folder='../templates')
 
 @user_views.errorhandler
 def page_not_found(code):
-    return render_template('404.html']
+    return render_template('404.html'), 404
 
 @user_views.route('/signup',methods=['GET'])
 def showSignUp():
