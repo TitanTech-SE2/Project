@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, jsonify, request, send_from_directory, redirect, url_for, Flask, flash
 from flask_login import login_required, LoginManager, current_user 
 from flask_jwt import current_identity, jwt_required
-from flask_socketio import SocketIO, emit, join_room, leave_room
+# from flask_socketio import SocketIO, emit, join_room, leave_room
 
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
@@ -24,7 +24,7 @@ user_views = Blueprint('user_views', __name__, template_folder='../templates')
 
 @user_views.errorhandler
 def page_not_found(code):
-    return render_template('404.html']
+    return render_template('404.html')
 
 @user_views.route('/signup',methods=['GET'])
 def showSignUp():
@@ -122,10 +122,10 @@ def makeUser():
 def userUpload():
     return render_template('upload.html')
 
-@user_views.route('/api/users/uploader', methods=['GET', 'POST'])
-@login_required
-def userUpload();
-    if request.method = 'POST':
-        f = request.files['file']
-        f.save(secure_filename(f.filename))
-        return 'File uploaded successfully'
+# @user_views.route('/api/users/uploader', methods=['GET', 'POST'])
+# @login_required
+# def userUpload();
+#     if request.method = 'POST':
+#         f = request.files['file']
+#         f.save(secure_filename(f.filename))
+#         return 'File uploaded successfully'
