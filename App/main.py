@@ -88,15 +88,7 @@ migrate=get_migrate(app)
 def load_user(user_id):
     return User.query.get(user_id)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
-socketio = SocketIO(app, always_connect=True, engineio_logger=True)
 
-@socketio.on('connect')
-def connected():
-    print('connect')
-    
-@socketio.on('disconnect')
-def disconnect():
-    print('disconnect')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
