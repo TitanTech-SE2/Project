@@ -22,7 +22,7 @@ from App.controllers import (
 
 user_views = Blueprint('user_views', __name__, template_folder='../templates')
 
-@user_views.errorhandler
+@user_views.errorhandler(404)
 def page_not_found(code):
     return render_template('404.html'), 404
 
