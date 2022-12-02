@@ -2,11 +2,13 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from App.database import db
 from flask import jsonify
 from flask_login import UserMixin
+from datetime import datetime
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username =  db.Column(db.String, nullable=False)
     password = db.Column(db.String(120), nullable=False)
+    dateAdded = db.Column(db.DateTime, default = datetime.utcnow)
     images = db.relationship('Image', backref='image', lazy=True, cascade="all, delete-orphan")
     ratings = db.relationship('Rating', backref='rating', lazy=True, cascade="all, delete-orphan")
 
