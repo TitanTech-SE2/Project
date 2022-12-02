@@ -22,6 +22,10 @@ from App.controllers import (
 
 user_views = Blueprint('user_views', __name__, template_folder='../templates')
 
+@user_views
+def page_not_found(code):
+    return render_template('404.html']
+
 @user_views.route('/signup',methods=['GET'])
 def showSignUp():
     return render_template('signupPage.html')
