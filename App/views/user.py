@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, jsonify, request, send_from_directory, redirect, url_for, Flask, flash
 from flask_login import login_required, LoginManager, current_user 
 from flask_jwt import current_identity, jwt_required
-# from flask_socketio import SocketIO, emit, join_room, leave_room
+from flask_socketio import SocketIO, emit, join_room, leave_room
 from werkzeug.utils import secure_filename
 
 from App.controllers import (
