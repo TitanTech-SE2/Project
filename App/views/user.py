@@ -2,8 +2,7 @@ from flask import Blueprint, render_template, jsonify, request, send_from_direct
 from flask_login import login_required, LoginManager, current_user 
 from flask_jwt import current_identity, jwt_required
 # from flask_socketio import SocketIO, emit, join_room, leave_room
-
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+from werkzeug.utils import secure_filename
 
 from App.controllers import (
     create_user, 
@@ -22,9 +21,9 @@ from App.controllers import (
 
 user_views = Blueprint('user_views', __name__, template_folder='../templates')
 
-@user_views.errorhandler
+@user_views.errorhandler(404)
 def page_not_found(code):
-    return render_template('404.html')
+    return render_template('404.html'), 404
 
 @user_views.route('/signup',methods=['GET'])
 def showSignUp():
