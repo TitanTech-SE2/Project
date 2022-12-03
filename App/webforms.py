@@ -17,7 +17,6 @@ class UserForm(FlaskForm):
 	username = StringField("Username", validators=[DataRequired()])
 	password_hash = PasswordField('Password', validators=[DataRequired(), EqualTo('password_hash2', message='Passwords Must Match!')])
 	password_hash2 = PasswordField('Confirm Password', validators=[DataRequired()])
-	profile_pic = FileField("Profile Pic", validators = [URL()])
 	submit = SubmitField("Submit")
 
 class PasswordForm(FlaskForm):
