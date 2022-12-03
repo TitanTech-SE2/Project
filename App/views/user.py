@@ -7,9 +7,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import date
 from datetime import datetime
 
-
-
-
 from App.controllers import (
     create_user, 
     get_all_users,
@@ -133,15 +130,3 @@ def makeUser():
     user = create_user(data['username'], data['password'])
     return jsonify({"message":"User Created"}) 
 
-@user_views.route('/api/users/upload')
-@login_required
-def userUpload():
-    return render_template('upload.html')
-
-# @user_views.route('/api/users/uploader', methods=['GET', 'POST'])
-# @login_required
-# def userUpload();
-#     if request.method = 'POST':
-#         f = request.files['file']
-#         f.save(secure_filename(f.filename))
-#         return 'File uploaded successfully'
