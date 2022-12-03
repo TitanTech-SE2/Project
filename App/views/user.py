@@ -74,6 +74,16 @@ def update_user_action():
     if user:
         return jsonify({"message":"User Updated"})
     return jsonify({"message":"User Not Found"})
+    
+
+@user_views.route('/api/users/profiile',methods = ['PUT'])
+@login_required
+def update_user_profile_pic(pic):
+    data = request.form
+    user = update_profile_pic(data['id'], data['profile_pic'])
+    if user:
+        return jsonify({"message":"User Profile Picture Updated"})
+    return jsonify({"message":"User Not Found"})
 
 @user_views.route('/auth',methods=['GET'])
 def showLogin():
