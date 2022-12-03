@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, jsonify, request, send_from_direct
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_jwt import current_identity, jwt_required
 from werkzeug.utils import secure_filename
-from webforms import LoginForm, UserForm, PasswordForm, SearchForm, UploadForm
+#from webforms import LoginForm, UserForm, PasswordForm, SearchForm, UploadForm
 from werkzeug.security import generate_password_hash, check_password_hash 
 from datetime import date
 from datetime import datetime
@@ -19,7 +19,7 @@ from App.controllers import (
     logout_user,
     get_level,
     authenticate,
-    identity
+    identity,
     update_profile_pic
 )
 
@@ -29,7 +29,7 @@ user_views = Blueprint('user_views', __name__, template_folder='../templates')
 def page_not_found(code):
     return render_template('404.html'), 404
 
-@user_views.route('/signup',methods=['GET', 'POST'])
+""" @user_views.route('/signup',methods=['GET', 'POST']) #commenting this out to fix errors
 def showSignUp():
     userName = None
     form = UserForm()
@@ -47,10 +47,13 @@ def showSignUp():
 	form.password.data = ''
         flash("User Added Successfully")
                 
-    return render_template('signupPage.html', form = form, userName = userName)
+    return render_template('signupPage.html', form = form, userName = userName) """
     
-        
-'''@user_views.route('/signup',methods=['POST'])
+@user_views.route('/signup',methods=['GET'])
+def showSignUp():
+    return render_template('signupPage.html')
+
+@user_views.route('/signup',methods=['POST'])
 def userSignUP():
     data = request.form
     user = get_user_by_username(data['username'])
@@ -59,7 +62,7 @@ def userSignUP():
         return showSignUp()
     user = create_user(data['username'], data['password'])
     return showLogin()
-'''
+
 
 @user_views.route('/home',methods=['GET'])
 @login_required
@@ -96,12 +99,12 @@ def update_user_action():
     return jsonify({"message":"User Not Found"})
     
 
-@app.route('/App/Uploads/<filename>')
+""" @app.route('/App/Uploads/<filename>') #use urls instead of files
 def getFile(filename):
-	   return send_from_directory(app.config['UPLOADED_PHOTOS_DEST'], filename)
+	   return send_from_directory(app.config['UPLOADED_PHOTOS_DEST'], filename) """
 
 
-@app.route('/user/upload', methods = ['GET', 'POST']
+""" @app.route('/user/upload', methods = ['GET', 'POST']
 @login_required
 def upload():
     form = UploadForm()
@@ -111,7 +114,7 @@ def upload():
     else:
 	   file_url = None
 	   
-    return render_template('upload.html', form = form, file_url = file_url)
+    return render_template('upload.html', form = form, file_url = file_url) """
 
 
 
