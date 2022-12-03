@@ -29,10 +29,22 @@ user_views = Blueprint('user_views', __name__, template_folder='../templates')
 def page_not_found(code):
     return render_template('404.html'), 404
 
-@user_views.route('/signup',methods=['GET'])
+@user_views.route('/signup',methods=['GET', 'POST'])
 def showSignUp():
-    return render_template('signupPage.html')
-
+    userName = None
+    form = UserForm()
+    if form.validate_on_submit():
+        user = get_user_by_username(form.username)
+        if user is None:
+            user = create_user(data['username'], data['password'])
+        userName = form.username.data
+        form.username.data = ''
+		form.password_hash.data = ''
+        flash("User Added Successfully")
+                
+    return render_template('signupPage.html', form = form, userName = userName)
+    
+        
 @user_views.route('/signup',methods=['POST'])
 def userSignUP():
     data = request.form
