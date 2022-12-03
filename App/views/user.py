@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, jsonify, request, send_from_direct
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_jwt import current_identity, jwt_required
 from werkzeug.utils import secure_filename
-from webforms import LoginForm, UserForm, PasswordForm, SearchForm
+from webforms import LoginForm, UserForm, PasswordForm, SearchForm, UploadForm
 from werkzeug.security import generate_password_hash, check_password_hash 
 from datetime import date
 from datetime import datetime
@@ -96,14 +96,24 @@ def update_user_action():
     return jsonify({"message":"User Not Found"})
     
 
-@user_views.route('/api/users/profiile',methods = ['PUT'])
+@app.route('/App/Uploads/<filename>')
+def getFile(filename):
+	   return send_from_directory(app.config['UPLOADED_PHOTOS_DEST'], filename)
+
+
+@app.route('/user/upload', methods = ['GET', 'POST']
 @login_required
-def update_user_profile_pic(pic):
-    user_pic = request.files[profile_pic]
-    user = update_profile_pic(data['id'], data['profile_pic'])
-    if user:
-        return jsonify({"message":"User Profile Picture Updated"})
-    return jsonify({"message":"User Not Found"})
+def upload():
+    form = UploadForm()
+    if form.validate_on_submit():
+	   filename = photos.save(form.photo.data)
+	   file_url = url_for('getFile', filename=filename)
+    else:
+	   file_url = None
+	   
+    return render_template('upload.html', form = form, file_url = file_url)
+
+
 
 @user_views.route('/auth',methods=['GET'])
 def showLogin():
