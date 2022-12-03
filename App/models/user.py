@@ -6,7 +6,7 @@ from datetime import datetime
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    username =  db.Column(db.String, nullable=False, unique=True)
+    username =  db.Column(db.String(120), nullable=False, unique=True)
     password = db.Column(db.String(120), nullable=False)
     profile_pic = db.Column(db.String, nullable=True, unique=True)
     dateAdded = db.Column(db.DateTime, default = datetime.utcnow)
@@ -21,6 +21,7 @@ class User(db.Model, UserMixin):
         return{
             'id': self.id,
             'username': self.username,
+            'profile_pic': self.profile_pic,
             'images': [image.toJSON() for image in self.images],
             'ratings': [rating.toJSON() for rating in self.ratings],
             'dateAdded' : self.dateAdded
