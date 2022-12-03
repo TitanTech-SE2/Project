@@ -42,12 +42,11 @@ def delete_user(id):
         return db.session.commit()
     return None
 
-def update_profile_pic(id, pic)
+def update_profile_pic(id, pic):
     user = get_user(id)
     if user:
-        if user.profile_pic = None:
-            user.profile_pic = pic
-            db.session.add(user)
-            db.session.commit()
-            return user
+        user.profile_pic = pic
+        db.session.add(user)
+        db.session.commit()
+        return user
     return None
