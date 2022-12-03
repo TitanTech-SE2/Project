@@ -19,10 +19,11 @@ class UserForm(FlaskForm):
 	password_hash2 = PasswordField('Confirm Password', validators=[DataRequired()])
 	submit = SubmitField("Submit")
 
-class PasswordForm(FlaskForm):
+#Not really needed was thinking about this for a admin user deciions to restrict access
+'''class PasswordForm(FlaskForm):
 	password_hash = PasswordField("What's Your Password", validators=[DataRequired()])
 	submit = SubmitField("Submit")
-
+'''
 class UploadForm(FlaskForm):
 	photo = FileField(validators=[FileAllowed(photos,'Image Files (.jpg, gif, png) Allowed'), FileRequired("File field should not be empty')
 	submit = SubmitField("Upload")					
