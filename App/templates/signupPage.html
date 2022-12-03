@@ -56,31 +56,35 @@
       <h3 class="title">Sign Up</h3>
       <div class="box">   
         
-        <form action="/signup" method="POST">
-        
-        <div class="field">
-          <div class="control">
-            <label>
-              Username<span class="req">*</span>
-            </label>
-            <input id="username" name="username" type="text" required autocomplete="off" placeholder="UserName" autofocus="" />
-          </div>
-        
-        <div class="control">
-          <label>
-            Password<span class="req">*</span>
-          </label>
-          <input id="password" name="password" type="password"required autocomplete="off" placeholder="Password"/>
-        </div>
-        
-        <div class="container">
-          <div class="center">
-            <button type="submit" class="myButton">Sign Up</button>
-          </div>
-        </div>
-        
-        </form>
+      <form action="/signup" method="POST">
+        <div class="shadow p-3 mb-5 bg-body rounded">
+	      <form method="POST">
+		
+     {{ form.hidden_tag() }}
 
+		{{ form.username.label(class="form-label") }}
+
+		{{ form.username(class="form-control") }}
+		<br/>
+
+		
+		{{ form.password_hash.label(class="form-label") }}
+
+		{{ form.password_hash(class="form-control") }}
+		<br/>
+
+		{{ form.password_hash2.label(class="form-label") }}
+
+		{{ form.password_hash2(class="form-control") }}
+		<br/>
+
+		{{ form.submit(class="btn btn-secondary") }}
+
+
+	</form>
+</div>
+<br/><br/><br/>
+        
       </div>
     
     </div>
