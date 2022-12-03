@@ -34,18 +34,23 @@ def showSignUp():
     userName = None
     form = UserForm()
     if form.validate_on_submit():
-        user = get_user_by_username(form.username)
-        if user is None:
-            user = create_user(data['username'], data['password'])
-        userName = form.username.data
+        user = get_user_by_username(form.username.data)
+        if user:
+		flash("Sorry! Username exists in database already")
+        	return showSignUp()
+
+	else:
+		user = create_user(form.username.data, form.password.data)
+        
+	userName = form.username.data
         form.username.data = ''
-		form.password_hash.data = ''
+	form.password.data = ''
         flash("User Added Successfully")
                 
     return render_template('signupPage.html', form = form, userName = userName)
     
         
-@user_views.route('/signup',methods=['POST'])
+'''@user_views.route('/signup',methods=['POST'])
 def userSignUP():
     data = request.form
     user = get_user_by_username(data['username'])
@@ -54,7 +59,7 @@ def userSignUP():
         return showSignUp()
     user = create_user(data['username'], data['password'])
     return showLogin()
-
+'''
 
 @user_views.route('/home',methods=['GET'])
 @login_required
