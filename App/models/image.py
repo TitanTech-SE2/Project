@@ -15,5 +15,5 @@ class Image(db.Model):
             'id': self.id,
             'userId': self.userId,
             'rankings': [ranking.toJSON() for ranking in self.rankings],
-            'source' : "http;//" + self.source 
+            'source' : "http://" + self.source 
         }
