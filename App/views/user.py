@@ -16,7 +16,8 @@ from App.controllers import (
     logout_user,
     get_level,
     authenticate,
-    identity 
+    identity
+    update_profile_pic
 )
 
 user_views = Blueprint('user_views', __name__, template_folder='../templates')
