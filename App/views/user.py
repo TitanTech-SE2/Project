@@ -28,7 +28,16 @@ user_views = Blueprint('user_views', __name__, template_folder='../templates')
 @user_views.errorhandler(404)
 def page_not_found(code):
     return render_template('404.html'), 404
- 
+
+@user_views.route('/api/users', methods=['POST'])
+def create_user_action():
+    data = request.json
+    user = get_user_by_username(data['username'])
+    if user:
+        return jsonify({"message":"Username Already Taken"}) 
+    user = create_user(data['username'], data['password'])
+    return jsonify({"message":"User Created"}) 
+
 @user_views.route('/signup',methods=['GET'])
 def showSignUp():
     return render_template('signupPage.html')
