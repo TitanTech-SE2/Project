@@ -7,9 +7,8 @@ class Distributor(db.Model):
     time = db.Column(db.DateTime, default=datetime.now)
     numberProfiles = db.Column(db.Integer, nullable=False)
     
-    def __init__(self, num_profiles):
+    def __init__(self, numberProfiles):
         self.numberProfiles = numberProfiles
-        self.time = datetime.datetime.now()
 
 
     def toJSON(self):

@@ -1,8 +1,6 @@
 from App.database import db
 from datetime import date
 
-#Ratings are created by users when they rate other users' profiles
-#Timestamps solve the 'limited number of ratings a day' problem
 class Rating(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     creatorId =  db.Column(db.Integer,  nullable=False)

@@ -1,6 +1,6 @@
 from App.database import db
 
-#Rankings are created by users when they rate other users' pictures
+
 class Ranking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     creatorId =  db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -18,5 +18,5 @@ class Ranking(db.Model):
             'id': self.id,
             'creatorId': self.creatorId,
             'imageId': self.imageId,
-            'score': self.score,
+            'score': self.score
         }
