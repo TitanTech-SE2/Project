@@ -12,7 +12,6 @@ from App.controllers import (
     get_ranking_by_actors,
     get_calculated_ranking,
     update_ranking,
-    #delete_ranking,
     get_user,
     get_image
 )
@@ -24,7 +23,7 @@ def create_ranking_action():
     data = request.json
     if get_user(data['creatorId']) and get_image(data['imageId']):
         image = get_image(data['imageId'])
-        if data['creatorId'] != image.userId:
+        if data['creatorId'] != image.user:
 
             prev = get_ranking_by_actors(data['creatorId'], data['imageId'])
             if prev:
@@ -74,13 +73,6 @@ def update_ranking_action():
         return jsonify({"message":"Ranking updated"})
     return jsonify({"message":"Ranking not found"})
 
-# @ranking_views.route('/api/rankings', methods=['DELETE'])
-# def delete_ranking_action():
-#     data = request.json
-#     if get_ranking(data['id']):
-#         delete_ranking(data['id'])
-#         return jsonify({"message":"Ranking deleted"}) 
-#     return jsonify({"message":"Ranking not found"}) 
 
 @ranking_views.route('/api/rankings/calc', methods=['GET'])
 def get_calculated_ranking_action():

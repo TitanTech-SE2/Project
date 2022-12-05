@@ -12,6 +12,7 @@ from App.controllers import (
     get_rating_by_actors,
     update_rating,
     get_user,
+    getTotalRatings,
     get_calculated_rating
 )
 
@@ -74,13 +75,10 @@ def update_rating_action():
         return jsonify({"message":"Rating updated"})
     return jsonify({"message":"Rating not found"})
 
-# @rating_views.route('/api/ratings', methods=['DELETE'])
-# def delete_rating_action():
-#     data = request.json
-#     if get_rating(data['id']):
-#         delete_rating(data['id'])
-#         return jsonify({"message":"Rating deleted"}) 
-#     return jsonify({"message":"Rating not found"}) 
+@rating_views.route('/api/ratings/total', methods=['GET'])
+def showTotalRatings():
+    ratings = getTotalRatings()
+    return (str(ratings))
 
 @rating_views.route('/api/ratings/calc', methods=['GET'])
 def get_calculated_rating_action():
@@ -91,4 +89,3 @@ def get_calculated_rating_action():
             return jsonify({"calculated rating": rating}) 
         return jsonify({"message":"No ratings by this user found"})
     return jsonify({"message":"User not found"})
-

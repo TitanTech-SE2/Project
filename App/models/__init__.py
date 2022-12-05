@@ -3,4 +3,4 @@ from .image import *
 from .rating import *
 from .ranking import *
 from .distributor import *
-from .ImageFeed import *
+from .imageFeed import *
