@@ -5,7 +5,7 @@ from datetime import date, datetime
 
 from App.main import create_app
 from App.database import create_db
-from App.models import User, Image, Rating, Ranking
+from App.models import User, Image, Rating, Ranking, ImageFeed, Distributor
 from App.controllers import (
     create_user,
     get_user,
@@ -43,7 +43,10 @@ from App.controllers import (
     get_ranking_by_actors,
     get_calculated_ranking,
     update_ranking,
-
+    createImageFeed,
+    getImageFeed,
+    createNewDistributor,
+    GenerateFeed,
     authenticate
 )
 
@@ -67,7 +70,7 @@ class UserUnitTests(unittest.TestCase):
         self.assertDictEqual(user_json, {"id":None, "username":"bob", "images": [], "ratings": []})
     
     def test_hashed_password(self):
-        password = "mypass"
+        password = "mypassword"
         hashed = generate_password_hash(password, method='sha256')
         user = User("bob", password)
         assert user.password != password
@@ -77,16 +80,35 @@ class UserUnitTests(unittest.TestCase):
         user = User("bob", password)
         assert user.check_password(password)
 
+class DistributorUnitTests(unittest.TestCase):
+    def test_new_dist(self):
+        dist = Distributor(3)
+        assert dist.numberProfiles == 3
+
+    def test_to_json(self):
+        dist = Distributor(3)
+        self.assertDictEqual(dist.toJSON(),{'id': None, 'time': None, 'numberProfiles': 3})
+
+class ImageFeedUnitTests(unittest.TestCase):
+    def test_new_imageFeed(self):
+        new_imageFeed = ImageFeed(1,1,2)
+        assert new_imageFeed.id == None
+
+    def test_new_imageFeed_toJSON(self):
+        new_imageFeed = ImageFeed(1,1,2)
+        new_imageFeed_toJSON = new_imageFeed.toJSON()
+        self.assertDictEqual(new_imageFeed_toJSON, {'id': None, 'sender': 1, 'reciever': 1, 'distributor': 2, 'rating': None})
+
 class ImageUnitTests(unittest.TestCase):
 
     def test_new_image(self):
-        image = Image(1)
+        image = Image(1, "testImage")
         assert image.rankings == []
 
     def test_toJSON(self):
-        image = Image(1)
+        image = Image(1, "testImage")
         image_json = image.toJSON()
-        self.assertDictEqual(image_json, {"id":None, "rankings":[], "userId": 1})
+        self.assertDictEqual(image_json, {'id': None, 'user': 1, 'rankings': [], 'url': 'testImage'})
 
 class RatingUnitTests(unittest.TestCase):
 
@@ -130,51 +152,61 @@ def test_authenticate():
 
 class UsersIntegrationTests(unittest.TestCase):
 
-    def test_create_user(self):
-        user = create_user("rick", "bobpass")
-        assert user.username == "rick"
-
-    def test_get_user(self):
-        user = get_user(1)
+    def test_new_user(self):
+        user = User("bob", "bobpass")
         assert user.username == "bob"
 
-    def test_get_user_by_username(self):
-        user = get_user_by_username("rick")
-        assert user["username"] == "rick"
+    def test_toJSON(self):
+        user = User("bob", "bobpass")
+        user_json = user.toJSON()
+        self.assertDictEqual(user_json, {"id":None, "username":"bob", "images": [], "ratings": []})
+    
+    def test_hashed_password(self):
+        password = "mypass"
+        hashed = generate_password_hash(password, method='sha256')
+        user = User("bob", password)
+        assert user.password != password
 
-    def test_get_all_users(self):
-        userList = []
-        userList.append(get_user(1))
-        userList.append(get_user(2))
-        self.assertEqual(get_all_users(), userList)
+    def test_check_password(self):
+        password = "mypass"
+        user = User("bob", password)
+        assert user.check_password(password)
 
-    def test_get_all_users_json(self):
-        users_json = get_all_users_json()
-        self.assertListEqual([{"id":1, "username":"bob", "images": [], "ratings": []}, {"id":2, "username":"rick", "images": [], "ratings": []}], users_json)
+    def test_toJSON(self):
+        image = Image(1)
+        image_json = image.toJSON()
+        self.assertDictEqual(image_json, {"id":None, "rankings":[], "user": 1})
 
-    def test_update_user(self):
-        update_user(1, "ronnie")
-        user = get_user(1)
-        assert user.username == "ronnie"
+    def test_new_rating(self):
+        rating = Rating(1, 2, 3)
+        assert rating.score == 3
 
-    def test_delete_user(self):
-        create_user("phil", "philpass")
-        delete_user(3)
-        user = get_user(3)
-        assert user == None
+    def test_toJSON(self):
+        rating = Rating(1, 2, 3)
+        rating_json = rating.toJSON()
+        self.assertDictEqual(rating_json, {"id":None, "creatorId":1, "targetId": 2, "score":3, "timeStamp": date.today()})
+
+    def test_new_ranking(self):
+        ranking = Ranking(1, 2, 3)
+        assert ranking.score == 3
+
+    def test_toJSON(self):
+        ranking = Ranking(1, 2, 3)
+        ranking_json = ranking.toJSON()
+        self.assertDictEqual(ranking_json, {"id":None, "creatorId":1, "imageId": 2, "score":3})
 
 class ImageIntegrationTests(unittest.TestCase):
 
     def test_create_image(self):
-        image = create_image(2)
+        image = create_image(2, "testImage")
         assert image.id == 1
 
     def test_get_image(self):
         image = get_image(1)
-        assert image.userId == 2
+        assert image.user == 2
 
     def test_get_all_images(self):
-        image = create_image(1)
+        image = create_image(1, "testImage")
         imageList = []
         imageList.append(get_image(1))
         imageList.append(get_image(2))
@@ -182,19 +214,36 @@ class ImageIntegrationTests(unittest.TestCase):
 
     def test_get_all_images_json(self):
         images_json = get_all_images_json()
-        self.assertListEqual([{"id":1, "rankings":[], "userId": 2}, {"id":2, "rankings":[], "userId": 1}], images_json)
+        self.assertListEqual([{'id': 1, 'rankings': [], 'url': 'testImage', 'user': 2},{'id': 2, 'rankings': [], 'url': 'testImage', 'user': 1}], images_json)
 
     def test_get_images_by_userid_json(self):
         images_json = get_images_by_userid_json(2)
-        self.assertListEqual(images_json, [{"id":1, "rankings":[], "userId": 2}])
+        self.assertListEqual(images_json, [{'id': 1, 'user': 2, 'rankings': [], 'url': 'testImage'}])
 
     def test_delete_image(self):
-        image = create_image(1)
+        image = create_image(1, "testImage")
         delete_image(image.id)
         image = get_image(image.id)
         assert image == None
 
-    
+class DistributorIntegrationTests(unittest.TestCase):
+    def test_create_new_distributor(self):
+        dist = createNewDistributor(6)
+        assert dist != None
+
+    def test_new_feed_generation(self):
+        dist = GenerateFeed(1)
+        assert dist != None
+
+class ImageFeedIntegrationTests(unittest.TestCase):
+    def test_create_imageFeed(self):
+        imageFeed = createImageFeed(1,2,3)
+        assert imageFeed.sender == 1
+
+    def test_get_imageFeed(self):
+        imageFeed = getImageFeed(2)
+        self.assertListEqual(imageFeed, [{'id': 1, 'sender': 1, 'reciever': 2, 'distributor': 3, 'rating': None}])
+
 class RatingIntegrationTests(unittest.TestCase):
 
     def test_create_rating(self):
@@ -223,10 +272,6 @@ class RatingIntegrationTests(unittest.TestCase):
     def test_get_ratings_by_targetid(self):
         ratings = get_ratings_by_target(2)
         self.assertListEqual(ratings, [{"id":1, "creatorId":1, "targetId": 2, "score":3, "timeStamp": date.today()}])
-
-    def test_get_rating_by_actors(self):
-        rating = get_rating_by_actors(1, 2)
-        assert rating.id == 1
 
     def test_update_rating(self):
         rating = update_rating(1, 5)

@@ -75,4 +75,14 @@ def user_tests_command(type):
         sys.exit(pytest.main(["-k", "User"]))
     
 
+@test.command("image", help="Run image tests")
+@click.argument("type", default="all")
+def user_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["-k", "ImageUnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["-k", "ImageIntegrationTests"]))
+    else:
+        sys.exit(pytest.main(["-k", "App"]))
+
 app.cli.add_command(test)
