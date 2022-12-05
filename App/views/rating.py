@@ -39,29 +39,26 @@ def get_all_ratings_action():
     ratings = get_all_ratings_json()
     return jsonify(ratings)
 
-@rating_views.route('/api/ratings/byid', methods=['GET'])
-def get_rating_action():
-    data = request.json
-    rating = get_rating(data['id'])
+@rating_views.route('/api/ratings/byid/<int:id>', methods=['GET'])
+def get_rating_action(id):
+    rating = get_rating(id)
     if rating:
         return rating.toJSON()
     return jsonify({"message":"Rating not found"})
 
-@rating_views.route('/api/ratings/bycreator', methods=['GET'])
-def get_rating_by_creator_action():
-    data = request.json
-    if get_user(data['creatorId']):
-        rating = get_ratings_by_creator(data['creatorId'])
+@rating_views.route('/api/ratings/bycreator/<int:id>', methods=['GET'])
+def get_rating_by_creator_action(id):
+    if get_user(id):
+        rating = get_ratings_by_creator(id)
         if rating:
             return jsonify(rating) 
         return jsonify({"message":"No ratings by this user found"})
     return jsonify({"message":"User not found"})
 
-@rating_views.route('/api/ratings/bytarget', methods=['GET'])
-def get_rating_by_target_action():
-    data = request.json
-    if get_user(data['targetId']):
-        rating = get_ratings_by_target(data['targetId'])
+@rating_views.route('/api/ratings/bytarget/<int:id>', methods=['GET'])
+def get_rating_by_target_action(id):
+    if get_user(id):
+        rating = get_ratings_by_target(id)
         if rating:
             return jsonify(rating) 
         return jsonify({"message":"No ratings for this user found"})
@@ -80,11 +77,10 @@ def showTotalRatings():
     ratings = getTotalRatings()
     return (str(ratings))
 
-@rating_views.route('/api/ratings/calc', methods=['GET'])
-def get_calculated_rating_action():
-    data = request.json
-    if get_user(data['targetId']):
-        rating = get_calculated_rating(data['targetId'])
+@rating_views.route('/api/ratings/calc/<int:id>', methods=['GET'])
+def get_calculated_rating_action(id):
+    if get_user(id):
+        rating = get_calculated_rating(id)
         if rating:
             return jsonify({"calculated rating": rating}) 
         return jsonify({"message":"No ratings by this user found"})

@@ -11,9 +11,10 @@ from App.controllers import (
 distributor_views = Blueprint('distributor_views', __name__, template_folder='../templates')
 
 @distributor_views.route('/createNewDistributor',methods=['GET'])
-@jwt_required()
+#@jwt_required()
 def createDistributor():
-    NewDistributor = createNewDistributor(current_identity.id)
+    users = get_all_users()
+    NewDistributor = createNewDistributor(len(users))
     return jsonify({"message":"Distributor has been created!"})
 
 @distributor_views.route('/feed', methods=['GET'])

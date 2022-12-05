@@ -60,6 +60,15 @@ def get_images_by_id_action(id):
         return jsonify({'message':'ERROR: Picture not found'}), 404
     return jsonify({'picture': picture.toJSON()}), 200
 
+@image_views.route('/api/addImage', methods=['POST'])
+def create_image_Fun():
+    data = request.json
+    user = get_user(data['user'])
+    if user:
+        image = create_image(data['user'], data['url'])
+        return jsonify({"message":"Image created"}) 
+    return jsonify({"message":"User does not exist"}) 
+
 @image_views.route('/deleteImage/<int:id>', methods=['DELETE'])
 @login_required
 def delete_image_action(id):
