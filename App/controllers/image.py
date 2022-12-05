@@ -1,8 +1,8 @@
 from App.models import Image
 from App.database import db
 
-def create_image(userId):
-    newImage = Image(userId=userId)
+def create_image(user, url):
+    newImage = Image(user=user, url=url)
     db.session.add(newImage)
     db.session.commit()
     return newImage
@@ -17,11 +17,11 @@ def get_image_json(id):
     image = image.toJSON()
     return image
 
-def get_images_by_userid(userId):
-    return Image.query.filter_by(userId=userId)
+def get_images_by_userid(user):
+    return Image.query.filter_by(user=user)
 
-def get_images_by_userid_json(userId):
-    images = Image.query.filter_by(userId=userId)
+def get_images_by_userid_json(user):
+    images = Image.query.filter_by(user=user)
     if not images:
         return []
     images = [image.toJSON() for image in images]

@@ -50,12 +50,6 @@ def update_rating(id, score):
         return rating
     return None
 
-# def delete_rating(id):
-#     rating = get_rating(id)
-#     if rating:
-#         db.session.delete(rating)
-#         return db.session.commit()
-#     return None
 
 def get_calculated_rating(targetId):
     ratings = Rating.query.filter_by(targetId=targetId)
@@ -76,3 +70,10 @@ def get_level(id):
             level = level + 1
         return level
     return None
+
+def getTotalRatings():
+    allUsers = user.get_all_users_json()
+    dump = []
+    for user in allUsers:
+        dump.append(get_calculated_rating(user['id']))
+    return dump
