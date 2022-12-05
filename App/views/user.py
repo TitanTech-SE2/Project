@@ -29,7 +29,7 @@ user_views = Blueprint('user_views', __name__, template_folder='../templates')
 def page_not_found(code):
     return render_template('404.html'), 404
 
-@user_views.route('/api/users', methods=['POST'])
+@user_views.route('/api/newUser', methods=['POST'])
 def create_user_action():
     data = request.json
     user = get_user_by_username(data['username'])
