@@ -15,7 +15,7 @@
               <span class="card-title">UserID: {{image.user}}</span>
             </div>
             <div class="card-content">
-              <p> ImageID: {{image.id}}  Score: {{image[ranking.score]}}</p>  
+              <p> ImageID: {{image.id}}  Score: {{image.rankings.score}}</p>  
             </div>
             <div class="card-action">
               <form action="/ranking/{{image.id}}" method="post">

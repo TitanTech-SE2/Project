@@ -11,7 +11,8 @@ from App.controllers import (
     get_image,
     get_image_json,
     delete_image,
-    get_user
+    get_user,
+    get_calculated_ranking
 )
 
 image_views = Blueprint('image_views', __name__, template_folder='../templates')
