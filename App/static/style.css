@@ -2,7 +2,7 @@
 body{
   background: rgb(238, 238, 238);
   font-family: Helvetica, sans-serif;
-  /* background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(136,47,191,1) 35%, rgba(0,212,255,1) 100%); */
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(136,47,191,1) 35%, rgba(0,212,255,1) 100%);
 }
 
 .myButton {
@@ -47,8 +47,4 @@ top:1px;
   /* Add some padding inside the card container */
   .container {
     padding: 2px 16px;
-  }
-
-  .upload-image-field{
-    /* max-width: 10vw; */
   }

@@ -5,13 +5,6 @@
 {{ super() }}
 
 {% block content %}
-    <div class="row">
-        <p>
-            This is table is renderd on the Server. Flask gets the data from the database and uses jinja templates to dyanmically render this page when a request is sent to <a href="/usrs">/users</a>.
-        </p>
-    </div>
-    <div class="row">
-
 
       {% for image in images %}
       <div class="row">
@@ -19,13 +12,22 @@
           <div class="card">
             <div class="card-image">
               <img src="{{image.url}}" alt="Profile Pic Failed to load">
-              <span class="card-title">{{image.user}}</span>
+              <span class="card-title">UserID: {{image.user}}</span>
             </div>
             <div class="card-content">
-              <p> User: {{image.user.id}} Image: {{image.id}} </p>
+              <p> ImageID: {{image.id}}  Score: {{image[ranking.score]}}</p>  
             </div>
             <div class="card-action">
-              <a href="#">This is a link</a>
+              <form action="/ranking/{{image.id}}" method="post">
+                <p class="range-field">
+                  <input type="range" id="ratingSlider" name="score" min="0" max="5" />
+                </p>
+                <!-- <input type="hidden" name="imageID" value="{{image.id}}" /> -->
+                <button class="myButton col-s6" type="submit">Add Rating
+                  <i class="tiny left material-icons">rate_review</i>
+               </button>
+
+              </form>
             </div>
           </div>
         </div>
