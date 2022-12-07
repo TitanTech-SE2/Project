@@ -5,6 +5,11 @@ body{
   background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(136,47,191,1) 35%, rgba(0,212,255,1) 100%);
 }
 
+.card{
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
 .myButton {
 box-shadow:inset 0px 1px 0px 0px #54a3f7;
 background:linear-gradient(to bottom, #007dc1 5%, #0061a7 100%);
