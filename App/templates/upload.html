@@ -1,15 +1,30 @@
 {% extends "layout.html" %}
-{% block title %}App Users Picture Upload{% endblock %}
-{% block page %}App Users{% endblock %}
+{% block title %} Picture Upload{% endblock %}
+{% block page %}Upload Image{% endblock %}
 
 {{ super() }}
 
-<html>
-   <body>
-      <form action = "http://localhost:5000//api/users/uploader" method = "POST" 
+{% block content %}
+
+
+      <!-- <form action = "/api/users/uploader" method = "POST" 
          enctype = "multipart/form-data">
          <input type = "file" name = "file" />
          <input type = "submit"/>
-      </form>   
-   </body>
-</html>
+      </form>    -->
+
+      
+
+      <form action="/uploadImage" method="post">
+         <div class="input-field upload-image-field col-s6">
+             <input id="url" type="text" name="url" class="validate">
+             <label for="url">URL</label>
+         </div>
+
+         <button class="myButton col-s6" type="submit">Add Photo
+            <i class="tiny left material-icons">local_see</i>
+         </button>
+         
+      </form>
+
+         {% endblock %}

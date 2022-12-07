@@ -26,7 +26,7 @@ def get_image_page():
 @image_views.route('/uploadImage', methods=['POST'])
 @login_required
 def uploadImageAction():
-    data = request.json
+    data = request.form
     uploadImage = create_image(current_user.id, data['url'])
     flash("Image Uploaded!")
     return render_template('homePage.html')
